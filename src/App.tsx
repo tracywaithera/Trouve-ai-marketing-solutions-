@@ -215,6 +215,14 @@ const HangingBot = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Automatically open the bot after a short delay to show the "writing space"
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
@@ -234,7 +242,7 @@ const HangingBot = () => {
         model: "gemini-3-flash-preview",
         contents: userMessage,
         config: {
-          systemInstruction: "You are the Trouve Marketing Solutions Assistant. You are professional, artistic, and insightful. You help users understand marketing, branding, and AI. You represent Trouve, a brand that combines 'Heart & Logic'. Keep responses concise and helpful. If asked about Trouve's services, mention Brand Identity, Website Design, AI Marketing, Team Training, and Campaigns. Our WhatsApp is +254 702 476 038.",
+          systemInstruction: "You are the Trouve Marketing Solutions Assistant. You are professional, artistic, and insightful. You help users understand marketing, branding, and AI. You represent Trouve, a brand that combines 'Heart & Logic'. You have deep knowledge of Trouve Marketing Solutions. Our services include: Brand Identity, Website Design, AI Marketing & Ads, Teaching Tech & AI, Marketing Campaigns, Strategic Consultation, and Brand Influencing. You should answer every question about Trouve Marketing Solutions with expertise. Our WhatsApp is +254 702 476 038.",
         },
       });
 
@@ -253,8 +261,8 @@ const HangingBot = () => {
       initial={{ y: -600 }}
       animate={{ 
         y: 0,
-        rotate: [0, -2, 2, 0],
-        x: [0, 5, -5, 0]
+        rotate: isOpen ? 0 : [0, -2, 2, 0],
+        x: isOpen ? 0 : [0, 5, -5, 0]
       }}
       transition={{ 
         y: { type: "spring", damping: 20, stiffness: 60, delay: 1.5 },
@@ -264,9 +272,12 @@ const HangingBot = () => {
       className="hanging-bot"
     >
       {/* The "String" */}
-      <div className="w-0.5 h-32 bg-slate-300 mx-auto relative origin-top">
+      <motion.div 
+        animate={{ opacity: isOpen ? 0 : 1 }}
+        className="w-0.5 h-32 bg-slate-300 mx-auto relative origin-top"
+      >
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 bg-slate-400 rounded-full" />
-      </div>
+      </motion.div>
       
       {/* The Bot Body */}
       <div 
@@ -274,15 +285,23 @@ const HangingBot = () => {
         className="relative cursor-pointer group"
       >
         <motion.div 
-          animate={{ y: [0, -5, 0] }}
-          transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
+          animate={{ 
+            y: isOpen ? 0 : [0, -5, 0],
+            scale: isOpen ? 0 : 1,
+            opacity: isOpen ? 0 : 1
+          }}
+          transition={{ 
+            y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
+            scale: { duration: 0.3 },
+            opacity: { duration: 0.3 }
+          }}
           className="w-20 h-20 bg-trouve-blue-dark rounded-[24px] flex items-center justify-center shadow-[0_20px_50px_rgba(0,84,166,0.3)] border-4 border-white/10 overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-br from-trouve-blue to-transparent opacity-50" />
           <motion.div
             animate={{ 
-              scale: [1, 1.1, 1],
-              rotate: [0, 5, -5, 0]
+              scale: isOpen ? 1 : [1, 1.1, 1],
+              rotate: isOpen ? 0 : [0, 5, -5, 0]
             }}
             transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
           >
