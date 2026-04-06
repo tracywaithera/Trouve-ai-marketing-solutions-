@@ -242,7 +242,7 @@ const HangingBot = () => {
         model: "gemini-3-flash-preview",
         contents: userMessage,
         config: {
-          systemInstruction: "You are the Trouve Marketing Solutions Assistant. You are professional, artistic, and insightful. You help users understand marketing, branding, and AI. You represent Trouve, a brand that combines 'Heart & Logic'. You have deep knowledge of Trouve Marketing Solutions. Our services include: Brand Identity, Website Design, AI Marketing & Ads, Teaching Tech & AI, Marketing Campaigns, Strategic Consultation, and Brand Influencing. You should answer every question about Trouve Marketing Solutions with expertise. Our WhatsApp is +254 702 476 038.",
+          systemInstruction: "You are the Trouve Marketing Solutions Assistant. You are wise, professional, and highly functional. You represent Trouve, a brand with 5 years of experience building iconic brands and identities. Your primary goal is to help users understand our services and guide them to reach us for their marketing needs. You excel at creating visuals that align with a client's soul, teaching digital marketing, and executing authentic storytelling campaigns. Our services include: Brand Identity, Website Design, AI Marketing & Ads, Teaching Tech & AI, Marketing Campaigns, Strategic Consultation, and Brand Influencing. When users are interested, provide these contact details: WhatsApp: +254 702 476 038 (wa.me/254702476038), Email: trouvemarketingsolutions@gmail.com. We are based in Nairobi, Kenya, but serve brands globally. Encourage users to 'Book a Campaign' or 'Schedule a Consultation' via these channels. Answer every question with the wisdom of a 5-year veteran and the functionality of a top-tier strategist.",
         },
       });
 
@@ -266,8 +266,8 @@ const HangingBot = () => {
       }}
       transition={{ 
         y: { type: "spring", damping: 20, stiffness: 60, delay: 1.5 },
-        rotate: { repeat: Infinity, duration: 4, ease: "easeInOut" },
-        x: { repeat: Infinity, duration: 5, ease: "easeInOut" }
+        rotate: isOpen ? { duration: 0.5 } : { repeat: Infinity, duration: 4, ease: "easeInOut" },
+        x: isOpen ? { duration: 0.5 } : { repeat: Infinity, duration: 5, ease: "easeInOut" }
       }}
       className="hanging-bot"
     >
@@ -291,7 +291,7 @@ const HangingBot = () => {
             opacity: isOpen ? 0 : 1
           }}
           transition={{ 
-            y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
+            y: isOpen ? { duration: 0.3 } : { repeat: Infinity, duration: 3, ease: "easeInOut" },
             scale: { duration: 0.3 },
             opacity: { duration: 0.3 }
           }}
@@ -303,7 +303,7 @@ const HangingBot = () => {
               scale: isOpen ? 1 : [1, 1.1, 1],
               rotate: isOpen ? 0 : [0, 5, -5, 0]
             }}
-            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+            transition={isOpen ? { duration: 0.3 } : { repeat: Infinity, duration: 4, ease: "easeInOut" }}
           >
             <Bot className="w-10 h-10 text-white relative z-10" />
           </motion.div>
@@ -360,6 +360,23 @@ const HangingBot = () => {
                     <div className="bg-white p-4 rounded-2xl rounded-tl-none shadow-sm border border-slate-100">
                       <Loader2 className="w-4 h-4 text-trouve-blue animate-spin" />
                     </div>
+                  </div>
+                )}
+                {!isLoading && messages.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-2">
+                    <a 
+                      href="https://wa.me/254702476038" 
+                      target="_blank"
+                      className="text-[10px] font-black bg-emerald-50 text-emerald-600 px-4 py-2 rounded-full border border-emerald-100 hover:bg-emerald-100 transition-colors uppercase tracking-widest"
+                    >
+                      WhatsApp Us
+                    </a>
+                    <a 
+                      href="mailto:trouvemarketingsolutions@gmail.com"
+                      className="text-[10px] font-black bg-blue-50 text-blue-600 px-4 py-2 rounded-full border border-blue-100 hover:bg-blue-100 transition-colors uppercase tracking-widest"
+                    >
+                      Email Us
+                    </a>
                   </div>
                 )}
               </div>
@@ -658,7 +675,7 @@ export default function App() {
               </h1>
               
               <p className="text-xl lg:text-2xl text-slate-600 max-w-xl mb-12 font-semibold leading-relaxed tracking-tight">
-                We merge <span className="text-trouve-blue-dark font-black">human intelligence</span> with <span className="text-trouve-blue-dark font-black">artificial intelligence</span> to get real, authentic results. We help you storytell about your business through content, visuals, posters, billboards, and video ads for all platforms.
+                For <span className="text-trouve-blue-dark font-black">5 years</span>, we've merged <span className="text-trouve-blue-dark font-black">human intelligence</span> with <span className="text-trouve-blue-dark font-black">artificial intelligence</span> to get real, authentic results. We help you storytell about your business through content, visuals, posters, billboards, and video ads for all platforms.
               </p>
               
               <div className="flex flex-wrap gap-6">
@@ -681,17 +698,18 @@ export default function App() {
             </motion.div>
 
             <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
+              transition={{ duration: 0.4 }}
               className="relative block mt-20 lg:mt-0 flex justify-center lg:justify-end"
             >
               <div className="relative z-10 ios-card overflow-hidden w-full max-w-[400px] aspect-[9/16] border-8 border-white shadow-2xl">
                 <iframe 
-                  src="https://www.youtube.com/embed/XbFHgP0FR3c?autoplay=1&mute=1&loop=1&playlist=XbFHgP0FR3c&controls=0&showinfo=0&rel=0&modestbranding=1" 
+                  src="https://www.youtube.com/embed/XbFHgP0FR3c?autoplay=1&mute=1&loop=1&playlist=XbFHgP0FR3c&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&enablejsapi=1&widget_referrer=https://trouve.marketing" 
                   title="Trouve Marketing Solutions"
                   className="absolute inset-0 w-full h-full pointer-events-none"
                   allow="autoplay; encrypted-media"
+                  loading="eager"
                   allowFullScreen
                 />
                 <div className="absolute inset-0 bg-trouve-blue-dark/10 pointer-events-none" />
@@ -707,7 +725,7 @@ export default function App() {
         </section>
 
         {/* Services Section */}
-        <section id="services" class="py-32 px-6 bg-slate-50/50">
+        <section id="services" className="py-32 px-6 bg-slate-50/50">
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-24">
               <h2 className="text-[11px] font-black text-trouve-blue uppercase tracking-[0.5em] mb-6">What We Do</h2>
@@ -871,7 +889,7 @@ export default function App() {
         </section>
 
         {/* Insights Section (Trouve Style) */}
-        <section id="insights" class="py-32 px-6 bg-white">
+        <section id="insights" className="py-32 px-6 bg-white">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
               <div className="max-w-2xl">
@@ -924,7 +942,7 @@ export default function App() {
         </section>
 
         {/* CTA Section */}
-        <section class="py-32 px-6">
+        <section className="py-32 px-6">
           <div className="max-w-4xl mx-auto text-center">
             <div className="w-24 h-24 bg-trouve-gold/10 rounded-full flex items-center justify-center mx-auto mb-12">
               <Award className="w-12 h-12 text-trouve-gold" />
