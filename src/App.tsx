@@ -111,12 +111,21 @@ const SERVICES: Service[] = [
   },
   {
     id: 'website-dev',
-    title: 'Website Design',
-    description: 'High-performance digital homes that turn visitors into loyal clients.',
-    fullDescription: 'In today\'s digital-first world, your website is your most important salesperson. We build responsive, high-speed, and conversion-optimized websites tailored for the African mobile-first user. Whether it\'s an e-commerce platform or a corporate landing page, we focus on user experience (UX) and clean design to ensure your visitors take action. Every site we build is SEO-ready and integrated with your marketing tools.',
+    title: 'Web & App Design',
+    description: 'Interactive, high-conversion digital homes and mobile applications.',
+    fullDescription: 'In today\'s digital-first world, your website and apps are your most important sales tools. We build interactive, responsive, and high-speed platforms tailored for the African mobile-first user. From complex mobile apps to conversion-optimized landing pages, we focus on user experience (UX) and clean design to ensure your visitors take action.',
     image: 'https://i.ibb.co/jPQfks2D/Gemini-Generated-Image-sw770zsw770zsw77.jpg',
     icon: <Globe className="w-6 h-6" />,
     color: 'bg-gold-50 text-trouve-gold'
+  },
+  {
+    id: 'seo-geo',
+    title: 'SEO & GEO Strategy',
+    description: 'Dominate search results and local maps with advanced optimization.',
+    fullDescription: 'Visibility is the first step to growth. We specialize in Search Engine Optimization (SEO) and Generative Engine Optimization (GEO) to ensure your brand appears where your customers are looking. From local map dominance to global search rankings, we use data-driven strategies to keep you at the top of the digital food chain.',
+    image: 'https://images.unsplash.com/photo-1571721795195-a2ca2d3370a9?auto=format&fit=crop&q=80&w=800',
+    icon: <Search className="w-6 h-6" />,
+    color: 'bg-blue-50 text-trouve-blue'
   },
   {
     id: 'ai-marketing',
@@ -242,7 +251,7 @@ const HangingBot = () => {
         model: "gemini-3-flash-preview",
         contents: userMessage,
         config: {
-          systemInstruction: "You are the Trouve Marketing Solutions Assistant. You are wise, professional, and highly functional. You represent Trouve, a brand with 5 years of experience building iconic brands and identities. Your primary goal is to help users understand our services and guide them to reach us for their marketing needs. You excel at creating visuals that align with a client's soul, teaching digital marketing, and executing authentic storytelling campaigns. Our services include: Brand Identity, Website Design, AI Marketing & Ads, Teaching Tech & AI, Marketing Campaigns, Strategic Consultation, and Brand Influencing. When users are interested, provide these contact details: WhatsApp: +254 702 476 038 (wa.me/254702476038), Email: trouvemarketingsolutions@gmail.com. We are based in Nairobi, Kenya, but serve brands globally. Encourage users to 'Book a Campaign' or 'Schedule a Consultation' via these channels. Answer every question with the wisdom of a 5-year veteran and the functionality of a top-tier strategist.",
+          systemInstruction: "You are the Trouve Marketing Solutions Assistant. You are wise, professional, and highly functional. You represent Trouve, a brand with 5 years of experience building iconic brands and solving the problem of brand invisibility. Your primary goal is to help users understand our services and guide them to reach us. We specialize in building interactive, high-conversion websites and apps, and dominating search through SEO and GEO. We excel at creating visuals that align with a client's soul, teaching digital marketing, and executing authentic storytelling campaigns. Our services include: Brand Identity, Website & App Design, SEO/GEO, AI Marketing & Ads, Teaching Tech & AI, Marketing Campaigns, Strategic Consultation, and Brand Influencing. When users are interested, provide these contact details: WhatsApp: +254 702 476 038 (wa.me/254702476038), Email: trouvemarketingsolutions@gmail.com. We are based in Nairobi, Kenya, but serve brands globally. Encourage users to 'Book a Campaign' or 'Schedule a Consultation'. Answer every question with the wisdom of a 5-year veteran and the functionality of a top-tier strategist.",
         },
       });
 
@@ -655,8 +664,53 @@ export default function App() {
         </AnimatePresence>
         {/* Hero Section */}
         <section id="home" className="relative min-h-screen flex items-center px-6 lg:px-12 pt-24 overflow-hidden">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-trouve-blue/5 -skew-x-12 translate-x-24 -z-10" />
-          <div className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-trouve-gold/5 skew-x-12 -translate-x-24 -z-10" />
+          {/* Animated Background Elements */}
+          <motion.div 
+            animate={{ 
+              y: [0, -30, 0],
+              x: [0, 10, 0],
+              rotate: [-12, -10, -12]
+            }}
+            transition={{ 
+              duration: 15, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }}
+            className="absolute top-0 right-0 w-1/2 h-full bg-trouve-blue/5 -skew-x-12 translate-x-24 -z-10" 
+          />
+          <motion.div 
+            animate={{ 
+              y: [0, 30, 0],
+              x: [0, -10, 0],
+              rotate: [12, 14, 12]
+            }}
+            transition={{ 
+              duration: 18, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }}
+            className="absolute bottom-0 left-0 w-1/3 h-1/2 bg-trouve-gold/5 skew-x-12 -translate-x-24 -z-10" 
+          />
+          
+          {/* Subtle White/Grey Decorative Elements */}
+          <motion.div
+            animate={{ 
+              scale: [1, 1.1, 1],
+              opacity: [0.1, 0.2, 0.1],
+              x: [0, 20, 0]
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-1/3 left-1/4 w-96 h-96 bg-slate-200/30 rounded-full blur-[120px] -z-10"
+          />
+          <motion.div
+            animate={{ 
+              scale: [1, 1.2, 1],
+              opacity: [0.1, 0.3, 0.1],
+              y: [0, -40, 0]
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-white/40 rounded-full blur-[150px] -z-10"
+          />
           
           <div className="max-w-7xl mx-auto w-full grid lg:grid-cols-2 gap-20 items-center">
             <motion.div 
@@ -670,12 +724,12 @@ export default function App() {
               </div>
               
               <h1 className="text-4xl sm:text-6xl lg:text-[110px] font-black text-trouve-blue-dark leading-[0.85] mb-10 tracking-tighter">
-                Stop Being Invisible. <br />
-                <span className="gradient-text">Get Remembered.</span>
+                Stop Being Invisible. Get <br />
+                <span className="gradient-text">Remembered.</span>
               </h1>
               
               <p className="text-xl lg:text-2xl text-slate-600 max-w-xl mb-12 font-semibold leading-relaxed tracking-tight">
-                For <span className="text-trouve-blue-dark font-black">5 years</span>, we've merged <span className="text-trouve-blue-dark font-black">human intelligence</span> with <span className="text-trouve-blue-dark font-black">artificial intelligence</span> to get real, authentic results. We help you storytell about your business through content, visuals, posters, billboards, and video ads for all platforms.
+                For <span className="text-trouve-blue-dark font-black">5 years</span>, we've solved the problem of brand invisibility by merging human intelligence with AI. We build <span className="text-trouve-blue-dark font-black">interactive, high-conversion websites and apps</span>, while dominating search with <span className="text-trouve-blue-dark font-black">SEO & GEO</span>. From authentic storytelling to high-impact marketing and advertising campaigns, we ensure your business leads.
               </p>
               
               <div className="flex flex-wrap gap-6">
