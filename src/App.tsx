@@ -726,7 +726,8 @@ export default function App() {
               </div>
               
               <h1 className="text-4xl sm:text-6xl lg:text-[110px] font-black text-trouve-blue-dark leading-[0.85] mb-10 tracking-tighter">
-                Stop Being Invisible. Get <br />
+                Stop Being Invisible. <br />
+                Get <br />
                 <span className="gradient-text">Remembered.</span>
               </h1>
               
