@@ -34,7 +34,6 @@ import {
   Play,
   CheckCircle2
 } from 'lucide-react';
-import { GoogleGenAI } from "@google/genai";
 
 // --- Types ---
 
@@ -246,20 +245,22 @@ const HangingBot = () => {
     setIsLoading(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: userMessage,
-        config: {
-          systemInstruction: "You are the Trouve Marketing Solutions Assistant. You are wise, professional, and highly functional. You represent Trouve, a brand with 5 years of experience building iconic brands and solving the problem of brand invisibility. Your primary goal is to help users understand our services and guide them to reach us. We specialize in building interactive, high-conversion websites and apps, and dominating search through SEO and GEO. We excel at creating visuals that align with a client's soul, teaching digital marketing, and executing authentic storytelling campaigns. Our services include: Brand Identity, Website & App Design, SEO/GEO, AI Marketing & Ads, Teaching Tech & AI, Marketing Campaigns, Strategic Consultation, and Brand Influencing. When users are interested, provide these contact details: WhatsApp: +254 702 476 038 (wa.me/254702476038), Email: trouvemarketingsolutions@gmail.com. We are based in Nairobi, Kenya, but serve brands globally. Encourage users to 'Book a Campaign' or 'Schedule a Consultation'. Answer every question with the wisdom of a 5-year veteran and the functionality of a top-tier strategist.",
-        },
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [...messages, { role: 'user', text: userMessage }],
+          systemInstruction: "You are the Trouve Marketing Solutions Assistant. You are wise, professional, and highly functional. You represent Trouve, a brand with 5 years of experience building iconic brands that live long by merging human creativity with AI. Your primary goal is to help users understand our services and guide them to reach us. We specialize in building interactive, high-conversion websites and apps, and dominating search through SEO and GEO. We excel at creating visuals that align with a client's soul, teaching digital marketing, and executing authentic storytelling campaigns. Our services include: Brand Identity, Website & App Design, SEO/GEO, AI Marketing & Ads, Teaching Tech & AI, Marketing Campaigns, Strategic Consultation, and Brand Influencing. When users are interested, provide these contact details: WhatsApp: +254 702 476 038 (wa.me/254702476038), Email: trouvemarketingsolutions@gmail.com. We are based in Nairobi, Kenya, but serve brands globally. Encourage users to 'Book a Campaign' or 'Schedule a Consultation'. Answer every question with the wisdom of a 5-year veteran and the functionality of a top-tier strategist."
+        })
       });
 
-      const botResponse = response.text || "I'm sorry, I couldn't process that. Please try again or contact us via WhatsApp!";
+      if (!response.ok) throw new Error('Proxy failed');
+      const data = await response.json();
+      const botResponse = data.text || "I'm sorry, I couldn't process that. Please try again or contact us via WhatsApp!";
       setMessages(prev => [...prev, { role: 'bot', text: botResponse }]);
     } catch (error) {
-      console.error("Gemini Error:", error);
-      setMessages(prev => [...prev, { role: 'bot', text: "I'm having a bit of trouble connecting. Please try again later!" }]);
+      console.error("Chat Error:", error);
+      setMessages(prev => [...prev, { role: 'bot', text: "I'm currently having trouble connecting to my brain. Please reach out to us directly on WhatsApp while I get back on my feet!" }]);
     } finally {
       setIsLoading(false);
     }
@@ -622,16 +623,17 @@ export default function App() {
       <nav className={`fixed top-0 left-0 w-full z-[60] h-24 transition-all duration-500 ${scrolled ? 'glass-nav h-20' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto h-full flex items-center justify-between px-6 lg:px-12">
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-trouve-blue-dark rounded-xl flex items-center justify-center shadow-lg relative overflow-hidden group">
-              <div className="absolute inset-0 bg-gradient-to-br from-trouve-gold to-transparent opacity-20 group-hover:opacity-40 transition-opacity" />
-              <svg viewBox="0 0 100 100" className="w-6 h-6 text-white relative z-10">
-                <path d="M20 20 H80 V35 H57.5 V80 H42.5 V35 H20 Z" fill="currentColor" />
-                <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="2" strokeDasharray="10 5" className="animate-spin-slow" />
-              </svg>
+            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg relative overflow-hidden group border border-slate-100">
+              <img 
+                src="https://i.ibb.co/svck6ZH1/trouve-logo.jpg" 
+                alt="Trouve Logo" 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <div className="hidden sm:block">
-              <p className="text-[11px] font-black text-trouve-blue tracking-[0.4em] uppercase leading-none">Trouve</p>
-              <p className="text-[7px] text-slate-400 font-bold tracking-[0.2em] uppercase mt-1">Creative Intelligence</p>
+              <p className="text-[11px] font-black text-trouve-blue tracking-[0.4em] uppercase leading-none">Trouve Creative Hub</p>
+              <p className="text-[7px] text-slate-400 font-bold tracking-[0.2em] uppercase mt-1">Intelligence for impactful brands</p>
             </div>
           </div>
 
@@ -729,7 +731,7 @@ export default function App() {
               </h1>
               
               <p className="text-xl lg:text-2xl text-slate-600 max-w-xl mb-12 font-semibold leading-relaxed tracking-tight">
-                For <span className="text-trouve-blue-dark font-black">5 years</span>, we've solved the problem of brand invisibility by merging human intelligence with AI. We build <span className="text-trouve-blue-dark font-black">interactive, high-conversion websites and apps</span>, while dominating search with <span className="text-trouve-blue-dark font-black">SEO & GEO</span>. From authentic storytelling to high-impact marketing and advertising campaigns, we ensure your business leads.
+                For <span className="text-trouve-blue-dark font-black">5 years</span>, we've solved the problem of brand invisibility by merging <span className="text-trouve-blue-dark font-black">human creativity</span> with AI to build brands that live long. We build <span className="text-trouve-blue-dark font-black">interactive, high-conversion websites and apps</span>, while dominating search with <span className="text-trouve-blue-dark font-black">SEO & GEO</span>. From authentic storytelling to high-impact marketing and advertising campaigns, we ensure your business leads.
               </p>
               
               <div className="flex flex-wrap gap-6">
@@ -1034,10 +1036,15 @@ export default function App() {
           <div className="grid lg:grid-cols-12 gap-20 mb-32">
             <div className="lg:col-span-5">
               <div className="flex items-center gap-4 mb-10">
-                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center shadow-xl">
-                  <span className="text-trouve-blue-dark font-black text-2xl">T</span>
+                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-xl overflow-hidden border border-white/10">
+                  <img 
+                    src="https://i.ibb.co/svck6ZH1/trouve-logo.jpg" 
+                    alt="Trouve Logo" 
+                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                  />
                 </div>
-                <span className="text-xl font-black tracking-[0.3em] uppercase">Trouve</span>
+                <span className="text-xl font-black tracking-[0.3em] uppercase">Trouve Creative Hub</span>
               </div>
               <p className="text-2xl text-slate-300 font-bold leading-tight mb-12 max-w-md">
                 Creative Intelligence for brands that refuse to be ignored. Building the future of African marketing.
