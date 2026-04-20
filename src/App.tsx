@@ -254,13 +254,17 @@ const HangingBot = () => {
         })
       });
 
-      if (!response.ok) throw new Error('Proxy failed');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Proxy failed');
+      }
+      
       const data = await response.json();
       const botResponse = data.text || "I'm sorry, I couldn't process that. Please try again or contact us via WhatsApp!";
       setMessages(prev => [...prev, { role: 'bot', text: botResponse }]);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Chat Error:", error);
-      setMessages(prev => [...prev, { role: 'bot', text: "I'm currently having trouble connecting to my brain. Please reach out to us directly on WhatsApp while I get back on my feet!" }]);
+      setMessages(prev => [...prev, { role: 'bot', text: `Debug Info: ${error.message}. Please check your GEMINI_API_KEY setting in the Secrets menu and environmental variables.` }]);
     } finally {
       setIsLoading(false);
     }

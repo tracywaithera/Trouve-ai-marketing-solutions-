@@ -19,17 +19,16 @@ async function startServer() {
   app.post("/api/chat", async (req, res) => {
     const { messages, systemInstruction } = req.body;
     
-    if (!process.env.GEMINI_API_KEY) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error("Chat Error: GEMINI_API_KEY missing");
       return res.status(500).json({ error: "GEMINI_API_KEY is not configured on the server." });
     }
 
     try {
-      // Use dynamic import to avoid potential ESM issues in CJS if required,
-      // but here we are in ESM (type: module)
       const { GoogleGenAI } = await import("@google/genai") as any;
-      const genAI = new GoogleGenAI(process.env.GEMINI_API_KEY as string);
+      const genAI = new GoogleGenAI(apiKey);
       
-      // Get the latest message
       const lastMessage = messages[messages.length - 1].text;
 
       const model = genAI.getGenerativeModel({ 
@@ -46,9 +45,13 @@ async function startServer() {
       const text = response.text();
       
       res.json({ text });
-    } catch (error) {
-      console.error("Gemini API Error:", error);
-      res.status(500).json({ error: "Failed to fetch response from AI." });
+    } catch (error: any) {
+      console.error("Gemini API Error Detail:", error);
+      res.status(500).json({ 
+        error: "Failed to fetch response from AI.",
+        message: error.message,
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      });
     }
   });
 
